@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			*{margin: 0; padding: 0;}
+			li,ol li{list-style: none;}
+			#box1{width: 650px; height: 500px; margin: 50px auto; overflow: hidden;
+			position: relative; z-index = 0;}
+			img{vertical-align: middle;}
+			#box1 ul{width: 650px; position: absolute; z-index: 0; transition: 1s;}
+			#box1 ul li{width: 650px; height: 500ox;}
+			#box1 ul li img{width: 650px; height: 500px;}
+			#box1 ol{position: absolute; bottom: 10%; left:25% ; z-index: 2;}
+			#box1 ol li{width: 40px; height: 40px; background: rgba(0,0,0,0.5);border-radius: 40px;
+			float: left; line-height: 40px; margin-left: 10px; text-align: center;cursor: pointer;}
+			#box1 ol .ac{background: red; color: #fff;}
+			#box1>a{width: 40px; height:  40px; background: rgba(0,0,0,.5); font-size: 40px;
+			position: absolute; top: 50%; line-height: 32px; text-decoration: none;}
+			#box1 #prve{left: 0;} 
+			#box1 #next{right: 0;}
+		</style>
+	</head>
+	<body>
+		<div id="box1">
+			<ul>
+				<li class="ac"><a href="javascript:alert(0)"><img src="img/1.jpg"></a></li>
+				<li><a href="javascript:alert(1)"><img src="img/2.jpg"></a></li>
+				<li><a href="javascript:alert(2)"><img src="img/3.jpg"></a></li>
+				<li><a href="javascript:alert(3)"><img src="img/4.jpg"></a></li>
+				<li><a href="javascript:alert(4)"><img src="img/5.jpg"></a></li>
+				<li><a href="javascript:alert(5)"><img src="img/6.jpg"></a></li>
+			</ul>
+			<ol>
+				
+			</ol>
+			<a href="#" id="prve">&laquo;</a>
+			<a href="#" id="next">&raquo;</a>
+		</div>
+		<script type="text/javascript">
+			var div = document.querySelector("#box1"),
+				ol = div.querySelector("ol"),
+				ul = div.querySelector("ul"),
+				imgArr = div.querySelector("ul").children,
+				prve = document.querySelector("#prve"),
+				next = document.querySelector("#next");
+				
+				var index = 0 ,
+					lastindex = 0,
+					btns = [];
+					
+				ul.style.height = 650*imgArr.length + "px";
+	
+				for(var i = 0; i < imgArr.length; i++){
+					var li = document.createElement("li");
+					li.innerHTML = i + 1;
+					ol.appendChild(li);
+					btns.push(li);
+				}
+				
+				for(let i = 0; i < btns.length; i++){
+					btns[i].onclick = function(){
+					index = i;
+					changeImg();
+					lastindex = index;
+				}
+				    }
+				
+				prve.onclick = function(){
+					if(--index < 0){
+						index = imgArr.length - 1;
+					}
+					changeImg();
+					lastindex = index;
+				}
+				next.onclick = function(){
+					if(++index === imgArr.length){
+						index = 0;
+					}
+					changeImg();
+					lastindex = index ;
+				}
+				
+				function qiehuan(){
+					timer = setInterval(function(){
+						next.onclick();
+					},1500);
+				}
+				
+				qiehuan();
+				div.onmouseleave = qiehuan ;
+				
+				div.onmouseenter = function(){
+					clearInterval(timer);
+				}
+				
+				function changeImg(){
+					btns[lastindex].classList.remove("ac");
+					
+					btns[index].classList.add("ac");
+					
+					ul.style.top = (-500)*index + "px";
+				}
+			
+		</script>
+	</body>
+</html>
